@@ -1,7 +1,6 @@
-export = M;
 
-declare module M {
 
+declare module "mongoose" {
     export interface Mongoose {
         constructor();
         set (key: string, value: string): Mongoose;
@@ -11,7 +10,7 @@ declare module M {
         connect(any): Mongoose;
 
         disconnect(fn: (err?: any) => void ): Mongoose;
-        model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model;
+        model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<Document>;
         modelNames(): string[];
         plugin(fn: (any) => any, opts?: any): Mongoose;
         mongo: any;
@@ -26,7 +25,7 @@ declare module M {
     export function connect(any): Mongoose;
 
     export function disconnect(fn: (err?: any) => void ): Mongoose;
-    export function model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model;
+    export function model(name: string, schema?: Schema, collection?: string, skipInit?: boolean): Model<Document>;
     export function modelNames(): string[];
     export function plugin(fn: (any) => any, opts?: any): Mongoose;
     export var mongo: any;
@@ -37,17 +36,17 @@ declare module M {
         name: string;
     }
 
-    export class Connection implements EventEmitter {
+    export class Connection implements NodeEventEmitter {
         constructor(base: Mongoose);
 
-        addListener(event: string, listener: Function);
-        on(event: string, listener: Function);
-        once(event: string, listener: Function): void;
-        removeListener(event: string, listener: Function): void;
-        removeAllListeners(event?: string): void;
+        addListener(event: string, listener: Function): Connection;
+        on(event: string, listener: Function): Connection;
+        once(event: string, listener: Function): Connection;
+        removeListener(event: string, listener: Function): Connection;
+        removeAllListeners(event?: string): Connection;
         setMaxListeners(n: number): void;
-        listeners(event: string): { Function; }[];
-        emit(event: string, ...args: any[]): void;
+        listeners(event: string): Function[];
+        emit(event: string, ...args: any[]): boolean;
 
         open(connection_string: string,
              database?: string,
@@ -62,7 +61,7 @@ declare module M {
 
         close(callback?: (any) => any): Connection;
         collection(name: string, options?: any): Collection;
-        model(name: string, schema?: Schema, collection?: string): Model;
+        model(name: string, schema?: Schema, collection?: string): Model<Document>;
         modelNames(): string[];
         setProfiling(level: number, ms: number, callback: (any) => any): any;
         db: any;
@@ -94,8 +93,8 @@ declare module M {
         exec(callback: (err: any, res: T[]) => any): Promise;
         exec(operation: string, callback: (err: any, res: T[]) => void ): Promise;
 
-        skip(x: number): Query;
-        limit(x: number): Query;
+        skip(x: number): Query<T>;
+        limit(x: number): Query<T>;
     }
 
     export class Promise { }
