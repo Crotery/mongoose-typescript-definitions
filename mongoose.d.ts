@@ -6,7 +6,7 @@ declare module "mongoose" {
         set (key: string, value: string): Mongoose;
         get (key: string): string;
         createConnection(uri?: string, options?: any): Connection;
-
+        Schema(definition: any, options?: any): Schema;
         connect(any): Mongoose;
 
         disconnect(fn: (err?: any) => void ): Mongoose;
@@ -17,7 +17,7 @@ declare module "mongoose" {
         version: string;
         connection: Connection;
     }
-
+    //export function Schema(definition: any, options?: any): Schema;
     export function set(key: string, value: string): Mongoose;
     export function get(key: string): string;
     export function createConnection(uri ? : string, options?: any): Connection;
@@ -70,6 +70,7 @@ declare module "mongoose" {
     }
 
     export class Schema {
+
         constructor(definition: any, options?: any);
         static Types: {
             ObjectId: any;
@@ -91,8 +92,9 @@ declare module "mongoose" {
         exec(): Promise;
         exec(operation: string): Promise;
         exec(callback: (err: any, res: T[]) => any): Promise;
+        exec(callback: (err: any, res: T) => any): Promise;
         exec(operation: string, callback: (err: any, res: T[]) => void ): Promise;
-
+        lean():Query<T>;
         skip(x: number): Query<T>;
         limit(x: number): Query<T>;
     }
@@ -168,9 +170,10 @@ declare module "mongoose" {
     }*/
 
     export interface Document {
+
         _id: string;
         update<T extends Document>(doc: any, options: any, callback: (err: any, affectedRows: number, raw: any) => void ): Query<T>;
-        save<T extends Document>(fn?: (err: any, res: T) => void ): void;
+        save<T extends Document>(fn?: (err: any, res: T, affected?:number) => void ): void;
         remove<T extends Document>(callback?: (err) => void ): Query<T>;
     }
 
