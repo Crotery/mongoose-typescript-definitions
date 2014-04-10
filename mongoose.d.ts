@@ -1,4 +1,4 @@
-///<reference path='d.ts/DefinitelyTyped/node/node.d.ts' />
+///<reference path='../DefinitelyTyped/node/node.d.ts' />
 
 interface ConnectionOptions {
   db?: any;
