@@ -1,4 +1,5 @@
 ///<reference path='../DefinitelyTyped/node/node.d.ts' />
+///<reference path='../DefinitelyTyped/mongodb/mongodb.d.ts' />
 
 interface ConnectionOptions {
   db?: any;
@@ -89,7 +90,7 @@ interface QueryStream extends ReadableStream {
 }
 
 declare module "mongoose" {
-
+  import mongodb = require('mongodb')
   class Mongoose {
     constructor();
 
@@ -409,7 +410,7 @@ declare module "mongoose" {
   interface Model<T extends Document> {
     new (doc?: any): T;
     db: any;
-    collection: Collection;
+    collection: mongodb.Collection;
     modelName: string;
     schema: Schema;
     base: Mongoose;
@@ -471,7 +472,7 @@ declare module "mongoose" {
     update<T extends Document>(update: Object, options?: Object, callback?: (err: any, affectedRows?: number, raw?: any) => void): QueryOne<number>;
     update<T extends Document>(update: Object, callback: (err: any, affectedRows?: number, raw?: any) => void): QueryOne<number>;
 
-    save<T extends Document>(callback?: (err: any, res?: T) => void): QueryOne<T>;
+    save<T extends Document>(callback?: (err: any, res?: T, affected?:number) => void): QueryOne<T>;
     remove<T extends Document>(callback?: (err: any) => void): QueryOne<any>;
 
     set(path: any, val: any, type?: SchemaTypes, options?: Object): Document;
