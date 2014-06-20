@@ -455,7 +455,7 @@ declare module "mongoose" {
     populate(doc: Object, options: Object, callback: (err: any, doc: any) => void): void;
     populate(docs: Object[], options: Object, callback: (err: any, docs: Object[]) => void): void;
 
-    create(doc: any, fn: (err: any, res: T) => void): void;
+    create(doc: any, fn?: (err: any, res: T) => void): Promise;
     remove(conditions: any, callback?: (err: any) => void): QueryOne<any>;
     increment(): Model<T>;
     ensureIndexes(cb?: (err: any) => void): void;
